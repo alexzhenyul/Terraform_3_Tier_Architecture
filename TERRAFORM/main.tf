@@ -16,3 +16,22 @@ module "aws_subnet"{
     availability_zone = each.value.availability_zone
     tags = each.value.tags
 }
+
+module "aws_igw"{
+    source = "./modules/aws_igw"
+    vpc_id = ""
+    tags = ""
+}
+
+module "aws_route_table"{
+    source = "./modules/aws_route_table"
+    vpc_id = ""
+    gateway_id = ""
+    tags = ""
+}
+
+module "aws_route_table_association"{
+    source = "./modules/aws_route_table_association"
+    subnet_id = ""
+    route_table_id = ""
+}
