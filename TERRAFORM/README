@@ -1,0 +1,4 @@
+## Build infrastructure via terraform.tfvars file
+
+terraform apply --var-file="./config/terraform.tfvars"
+
