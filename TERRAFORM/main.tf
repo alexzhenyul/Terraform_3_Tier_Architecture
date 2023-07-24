@@ -45,7 +45,7 @@ module "aws_route_table"{
     ### If route table is public, attach internet gateway, or route table is private, attach nat gateway
     ### terraform.tfvars file (rt_config section adding private = 0/1)
     ### Apply condition
-    gateway_id =  each.value.private == 0 ? module.aws_igw[each.value.gateway_name].internet_gateway_id : module.aws_nat_gw[each.value.gateway_name].aws_nat_gateway_id
+    internet_gateway_id =  each.value.private == 0 ? module.aws_igw[each.value.gateway_name].internet_gateway_id : module.aws_nat_gw[each.value.gateway_name].aws_nat_gateway_id
     tags = each.value.tags
 }
 
@@ -54,3 +54,4 @@ module "aws_route_table_association"{
     for_each = var.rta_config
     subnet_id = module.aws_subnet[each.value.subnet_name].subnet_id
     route_table_id = module.aws_route_table[each.value.route_table_name].route_table_id
+}
