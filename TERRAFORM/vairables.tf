@@ -37,3 +37,11 @@ variable "rt_config"{
 variable "rta_config"{
 
 }
+
+variable "aws_eks_cluster_config"{
+
+}
+
+variable "aws_eks_node_group_config"{
+
+}
