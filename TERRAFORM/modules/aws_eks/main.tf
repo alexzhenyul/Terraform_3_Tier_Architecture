@@ -1,21 +1,21 @@
-resource "aws_kms_key" "main_eks_cluster" {
+resource "aws_eks_cluster" "main_eks_cluster" {
     name = var.eks_cluster_name
-    role_arn =aws_iam_role.eks_cluster.arn
+    role_arn = aws_iam_role.eks_cluster.arn
 
     vpc_config{
         subnet_ids = var.subnet_ids
     }
 
     depends_on = [
-        aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy, 
-        aws_iam_role_policy_attachment.example-AmazonEKSVPCResourceControl
+        aws_iam_role_policy_attachment.eks_cluster_policy, 
+        aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly
     ]
 
     tags = var.tags
 }
 
 resource "aws_iam_role" "eks_cluster" {
-    name = "eks_cluster_role"
+    name = "eks_cluster"
 
     assume_role_policy = <<POLICY
     {
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy"{
     role = aws_iam_role.eks_cluster.name
 }
 
-variable "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly"{
+resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly"{
     policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
     role = aws_iam_role.eks_cluster.name
 }

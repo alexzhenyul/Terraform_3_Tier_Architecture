@@ -60,7 +60,7 @@ module "aws_eks" {
     source = "./modules/aws_eks"
     for_each = var.aws_eks_cluster_config
     eks_cluster_name = each.value.eks_cluster_name
-    subnet_ids = [modules.aws_subnet[each.value.subnet1].subnet_id, modules.aws_subnet[each.value.subnet2].subnet_id, modules.aws_subnet[each.value.subnet3].subnet_id, modules.aws_subnet[each.value.subnet4].subnet_id]
+    subnet_ids = [module.aws_subnet[each.value.subnet1].subnet_id, module.aws_subnet[each.value.subnet2].subnet_id, module.aws_subnet[each.value.subnet3].subnet_id, module.aws_subnet[each.value.subnet4].subnet_id]
     tags = each.value.tags
 }
 
@@ -69,9 +69,9 @@ module "aws_eks_node_group"{
     for_each = var.aws_eks_node_group_config
     node_group_name = each.value.node_group_name
     ## Keep application run in private subnet
-    eks_cluster_name = module.aws_eks
-    subnet_ids = ""
-
+    eks_cluster_name = module.aws_eks[each.value.eks_cluster_name].eks_cluster_name
+    subnet_ids = [module.aws_subnet[each.value.subnet1].subnet_id, module.aws_subnet[each.value.subnet2].subnet_id]
+    node_iam_role = each.value.node_iam_role
     tags = each.value.tags
 }
 

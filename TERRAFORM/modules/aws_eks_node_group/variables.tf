@@ -1,5 +1,5 @@
 variable "eks_cluster_name" {
-
+    type = string
 }
 
 variable "node_group_name" {
@@ -10,10 +10,10 @@ variable "subnet_ids"{
 
 }
 
-variable "eks_instance_type"{
-
+variable "tags"{
+    
 }
 
-variable "tags"{
+variable "node_iam_role"{
     
 }
